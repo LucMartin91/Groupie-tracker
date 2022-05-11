@@ -1,0 +1,196 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/css/splide.min.css">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<style>
+    .help {
+        width: 17%;
+        height: 110px;
+        border-radius: 15px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: white;
+        margin-top: -3rem;
+        border: none;
+        outline: none;
+        background: linear-gradient(90deg, #ff9966, #ff5e62);
+        padding: 1.5rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        box-shadow: 1px 10px 2rem rgba(255, 94, 98, 0.5);
+        transition: all .2s ease-in;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .navbar>h1 {
+        border: none;
+        outline: none;
+        background: linear-gradient(90deg, #ff9966, #ff5e62);
+        padding: 1.5rem 2.5rem;
+        border-radius: 50px;
+        color: white;
+        font-size: 1.2rem;
+        box-shadow: 1px 10px 2rem rgba(255, 94, 98, 0.5);
+        transition: all .2s ease-in;
+        text-decoration: none;
+    }
+
+
+    .boutonhelp {
+        font-size: 100%;
+        background-color: rgba(70, 70, 70, 0.582);
+        font-weight: lighter;
+    }
+
+    button {
+        border-radius: 15px;
+        background-color: rgba(36, 36, 36, 0.788);
+        color: white;
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    button>img {
+        border-radius: 100%;
+    }
+
+    body {
+        background-image: url(https://besthqwallpapers.com/Uploads/28-10-2017/26112/thumb2-vinyl-4k-dark-texture-vinyl-record-music-textures.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .navbar {
+        display: flex;
+        height: 100px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    }
+
+
+    .red a {
+        padding-left: 49px;
+        justify-content: center;
+    }
+
+    .red button {
+        margin-top: 20px;
+    }
+
+    .red img {
+        margin-top: 20px;
+        width: 300px;
+        justify-content: center;
+    }
+
+    .red p {
+        font-size: 150%;
+    }
+
+    input[type="text"i] {
+        margin-top: 5%;
+        margin-left: 380px;
+        width: 300px;
+        height: 30px;
+        font-size: 20px;
+    }
+
+    .splide {
+        background-color: rgba(128, 128, 128, 0.205);
+        padding: 1rem 2rem;
+        margin: 7rem 2rem;
+        border-radius: 15px;
+    }
+
+    .splide__list {
+        border-radius: 100px;
+    }
+
+
+    .splide__pagination {
+        bottom: -4.5em;
+    }
+
+    .splide__track {
+        margin-left: 4rem;
+    }
+</style>
+
+<body>
+    <div class="navbar">
+        <h1>Groupie Tracker</h1>
+        <form method="post">
+            <div class="bar"> <input type="text" placeholder="Search..." autocomplete="off" name="scan"
+                    list="artistlist" id="artiste" required>
+                <datalist id="artistlist">
+                    {{range .}}
+                    <option value="{{.Name}}">
+                        <p>{{.Name}} -Group</p>
+                    </option>
+                    <option value="{{.FirstAlbum}}">
+                        <p>{{.FirstAlbum}} -First Album {{.Name}}</p>
+                    </option>
+                    {{range $k, $v := .Members}}
+                    <option value="{{.}}">
+                        <p>{{$v}}</p>
+                        {{end}}
+                        <p>- Member of {{.Name}}</p>
+                    </option>
+                    <option value="{{.CreationDate}}">
+                        <p>{{.CreationDate}} -CreationDate {{.Name}}</p>
+                    </option>
+                    {{end}}
+                </datalist>
+            </div>
+        </form>
+    </div>
+    <div class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {{range .}}
+
+                <li class="splide__slide">
+                    <a href="http://localhost:555/artiste/{{.Id}}"><button name="{{.Id}}">
+                            <img src="{{.Image}}" alt="images">
+                            <div class="Nom">
+                                <p>{{.Name}}</p>
+                            </div>
+                        </button></a>
+                </li>
+
+
+                {{end}}
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+
+            var splide = new Splide('.splide', {
+                perPage: 4,
+                rewind: true,
+            });
+
+            splide.mount();
+        });
+    </script>
+    <div class="help">
+        <h3>Need Help?</h3>
+        <a href="http://localhost:555/ContactUs"><button class="boutonhelp">Contact us</button></a>
+    </div>
+</body>
+
+</html>
+{{end}}
